@@ -4,6 +4,7 @@
 #include <cmath>
 #include <memory>
 #include <vector>
+#include <new>
 
 
 
@@ -402,6 +403,7 @@ public:
 };
 
 class PObjCirc: public PCirc, public PVEC {
+public:
     PObjCirc(float angle, float radius, FPoint center, float centerRad, Circ circ, float angl) : PCirc(center, centerRad, circ, angl), PVEC(angle, radius) {
 
     }
@@ -422,5 +424,59 @@ class PObjCirc: public PCirc, public PVEC {
         ang+=ANGLE;
     }
 };
+
+
+
+extern "C" {
+
+    void PVEC_fromMVec(PVEC* obj, MVec vec) {
+        obj[0].fromMVec(vec);
+    }
+
+    void PVEC_reMath(PVEC* obj) {
+        obj[0].reMath();
+    }
+
+    PVEC* PVEC_new(float angle, float radius) {
+        return new(std::nothrow) PVEC(angle, radius);
+    }
+
+    PObjLine* PObjLine_new(float ANGLE, float radius, FPoint CENTER, float Rad1, float Ang1, float Rad2, float Ang2) {
+        return new(std::nothrow) PObjLine(ANGLE, radius, CENTER, Rad1, Ang1, Rad2, Ang2);
+    }
+
+    void PObjLine_reMath(PObjLine *obj) {
+        obj[0].ReMath();
+    }
+
+    void PObjLine_rotateObj(PObjLine *obj, float ANGLE) {
+        obj[0].rotateObj(ANGLE);
+    }
+
+    void PObjLine_rotateVec(PObjLine *obj, float ANGLE) {
+        obj[0].rotateObj(ANGLE);
+    }
+
+    void move_PObjLine(PObjLine *obj) {
+        obj[0].move();
+    }
+
+
+    PObjCirc* PObjCirc_new(float angle, float radius, FPoint center, float centerRad, Circ circ, float angl) {
+        return new(std::nothrow) PObjCirc(angle, radius, center, centerRad, circ, angl);
+    }
+    void reMath_PObjCirc(PObjCirc *obj) {
+        obj[0].ReMath();
+    }
+    void move_PObjCirc(PObjCirc *obj) {
+        obj[0].mov();
+    }
+    void rotateObj_PObjCirc(PObjCirc *obj, float angle) {
+        obj[0].rotateObj(angle);
+    }
+    void rotateVec_PObjCirc(PObjCirc *obj, float angle) {
+        obj[0].rotateVec(angle);
+    }
+}
 
 #endif // MINPHYS_H
