@@ -9,6 +9,7 @@ import gui
 import multiplayer
 import objects
 import world
+from ctypes import *
 
 
 class Main(object):
@@ -20,6 +21,7 @@ class Main(object):
         self.drawThread = threading.Thread(target=self.draw, daemon=True)
         self.worldThread = threading.Thread(target=self.wrld.loop, daemon=True)
         self.drawObj = draw.Draw(self.wrld, self.window)
+        self.guiObj = gui.Gui(self.window)
 
     def run(self):
         self.drawThread.start()
@@ -31,11 +33,15 @@ class Main(object):
 
 
     def draw(self):
-        self.window.fill((134, 134, 255))
-        pygame.draw.circle(self.window, (0, 0, 255), (250, 250), 75)
-        self.drawObj.draw()
-        pygame.display.flip()
+        while True:
+            self.window.fill((134, 134, 255))
+            self.drawObj.draw()
+            self.guiObj.draw()
+            pygame.display.flip()
 
 mainObj = Main()
+x = 100
+y = 100
+
 mainObj.run()
 pygame.quit()

@@ -9,8 +9,8 @@ class World(object):
         self.width = map_w
         self.height = map_h
         self.p = MinPhysBridge.FPoint(0, 0)
-        MinPhysBridge.del_FPoint(self.p.obj)
         self.ang = 100
+        MinPhysBridge.del_FPoint(self.p.obj)
         self.p.obj = MinPhysBridge.getPointOnCirc(200, 200, 100, self.ang)
 
     def loop(self):
@@ -19,5 +19,5 @@ class World(object):
             if self.ang > 360:
                 self.ang = 0
             MinPhysBridge.del_FPoint(self.p.obj)
-            self.p.obj = MinPhysBridge.getPointOnCirc(200, 200, 100, self.ang)
-            time.sleep(0.1)
+            self.p.obj = MinPhysBridge.getPointOnCirc(75, self.ang, 200, 200)
+            #time.sleep(0.1)
